@@ -16,8 +16,8 @@
 
 package com.genymobile.gnirehtet;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -32,28 +32,28 @@ public class AdbMonitorTest {
     public void testReadValidPacket() {
         String data = "00180123456789ABCDEF\tdevice\n";
         String result = AdbMonitor.readPacket(toByteBuffer(data));
-        Assert.assertEquals("0123456789ABCDEF\tdevice\n", result);
+        Assertions.assertEquals("0123456789ABCDEF\tdevice\n", result);
     }
 
     @Test
     public void testReadValidPackets() {
         String data = "00300123456789ABCDEF\tdevice\nFEDCBA9876543210\tdevice\n";
         String result = AdbMonitor.readPacket(toByteBuffer(data));
-        Assert.assertEquals("0123456789ABCDEF\tdevice\nFEDCBA9876543210\tdevice\n", result);
+        Assertions.assertEquals("0123456789ABCDEF\tdevice\nFEDCBA9876543210\tdevice\n", result);
     }
 
     @Test
     public void testReadValidPacketWithGarbage() {
         String data = "00180123456789ABCDEF\tdevice\ngarbage";
         String result = AdbMonitor.readPacket(toByteBuffer(data));
-        Assert.assertEquals("0123456789ABCDEF\tdevice\n", result);
+        Assertions.assertEquals("0123456789ABCDEF\tdevice\n", result);
     }
 
     @Test
     public void testReadShortPacket() {
         String data = "00180123456789ABCDEF\tdevi";
         String result = AdbMonitor.readPacket(toByteBuffer(data));
-        Assert.assertNull(result);
+        Assertions.assertNull(result);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class AdbMonitorTest {
         AdbMonitor monitor = new AdbMonitor((serial) -> pSerial[0] = serial);
         String packet = "0123456789ABCDEF\tdevice\n";
         monitor.handlePacket(packet);
-        Assert.assertEquals("0123456789ABCDEF", pSerial[0]);
+        Assertions.assertEquals("0123456789ABCDEF", pSerial[0]);
     }
 
     @Test
@@ -71,7 +71,7 @@ public class AdbMonitorTest {
         AdbMonitor monitor = new AdbMonitor((serial) -> pSerial[0] = serial);
         String packet = "0123456789ABCDEF\toffline\n";
         monitor.handlePacket(packet);
-        Assert.assertNull(pSerial[0]);
+        Assertions.assertNull(pSerial[0]);
     }
 
     @Test
@@ -86,8 +86,8 @@ public class AdbMonitorTest {
         });
         String packet = "0123456789ABCDEF\tdevice\nFEDCBA9876543210\tdevice\n";
         monitor.handlePacket(packet);
-        Assert.assertEquals("0123456789ABCDEF", pSerials[0]);
-        Assert.assertEquals("FEDCBA9876543210", pSerials[1]);
+        Assertions.assertEquals("0123456789ABCDEF", pSerials[0]);
+        Assertions.assertEquals("FEDCBA9876543210", pSerials[1]);
     }
 
     @Test
@@ -107,8 +107,8 @@ public class AdbMonitorTest {
         monitor.handlePacket(packet);
         packet = "0123456789ABCDEF\tdevice\nFEDCBA9876543210\tdevice\n";
         monitor.handlePacket(packet);
-        Assert.assertEquals("0123456789ABCDEF", pSerials[0]);
-        Assert.assertEquals("FEDCBA9876543210", pSerials[1]);
-        Assert.assertEquals("FEDCBA9876543210", pSerials[2]);
+        Assertions.assertEquals("0123456789ABCDEF", pSerials[0]);
+        Assertions.assertEquals("FEDCBA9876543210", pSerials[1]);
+        Assertions.assertEquals("FEDCBA9876543210", pSerials[2]);
     }
 }

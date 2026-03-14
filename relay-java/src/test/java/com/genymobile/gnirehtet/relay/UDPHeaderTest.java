@@ -16,8 +16,8 @@
 
 package com.genymobile.gnirehtet.relay;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.nio.ByteBuffer;
 
@@ -38,9 +38,9 @@ public class UDPHeaderTest {
     @Test
     public void testParsePacketHeaders() {
         UDPHeader header = new UDPHeader(createMockHeaders());
-        Assert.assertNotNull("Valid UDP header not parsed", header);
-        Assert.assertEquals(1234, header.getSourcePort());
-        Assert.assertEquals(5678, header.getDestinationPort());
+        Assertions.assertNotNull("Valid UDP header not parsed", header);
+        Assertions.assertEquals(1234, header.getSourcePort());
+        Assertions.assertEquals(5678, header.getDestinationPort());
     }
 
     @Test
@@ -52,28 +52,28 @@ public class UDPHeaderTest {
         header.setDestinationPort(2222);
         header.setPayloadLength(34);
 
-        Assert.assertEquals(1111, header.getSourcePort());
-        Assert.assertEquals(2222, header.getDestinationPort());
+        Assertions.assertEquals(1111, header.getSourcePort());
+        Assertions.assertEquals(2222, header.getDestinationPort());
 
         // assert the buffer has been modified
         int sourcePort = Short.toUnsignedInt(buffer.getShort(0));
         int destinationPort = Short.toUnsignedInt(buffer.getShort(2));
         int length = Short.toUnsignedInt(buffer.getShort(4));
 
-        Assert.assertEquals(1111, sourcePort);
-        Assert.assertEquals(2222, destinationPort);
-        Assert.assertEquals(42, length);
+        Assertions.assertEquals(1111, sourcePort);
+        Assertions.assertEquals(2222, destinationPort);
+        Assertions.assertEquals(42, length);
 
         header.swapSourceAndDestination();
 
-        Assert.assertEquals(2222, header.getSourcePort());
-        Assert.assertEquals(1111, header.getDestinationPort());
+        Assertions.assertEquals(2222, header.getSourcePort());
+        Assertions.assertEquals(1111, header.getDestinationPort());
 
         sourcePort = Short.toUnsignedInt(buffer.getShort(0));
         destinationPort = Short.toUnsignedInt(buffer.getShort(2));
 
-        Assert.assertEquals(2222, sourcePort);
-        Assert.assertEquals(1111, destinationPort);
+        Assertions.assertEquals(2222, sourcePort);
+        Assertions.assertEquals(1111, destinationPort);
     }
 
     @Test
@@ -86,8 +86,8 @@ public class UDPHeaderTest {
         UDPHeader copy = header.copyTo(target);
         copy.setSourcePort(9999);
 
-        Assert.assertEquals(20, target.position());
-        Assert.assertEquals("Header must modify target", 9999, target.getShort(12));
-        Assert.assertEquals("Header must not modify buffer", 1234, buffer.getShort(0));
+        Assertions.assertEquals(20, target.position());
+        Assertions.assertEquals("Header must modify target", 9999, target.getShort(12));
+        Assertions.assertEquals("Header must not modify buffer", 1234, buffer.getShort(0));
     }
 }

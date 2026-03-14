@@ -16,9 +16,9 @@
 
 package com.genymobile.gnirehtet.relay;
 
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 import java.nio.ByteBuffer;
 
@@ -108,11 +108,11 @@ public class TCPHeaderTest {
         header.setAcknowledgementNumber(101);
         header.setFlags(TCPHeader.FLAG_FIN | TCPHeader.FLAG_ACK);
 
-        Assert.assertEquals(1111, header.getSourcePort());
-        Assert.assertEquals(2222, header.getDestinationPort());
-        Assert.assertEquals(300, header.getSequenceNumber());
-        Assert.assertEquals(101, header.getAcknowledgementNumber());
-        Assert.assertEquals(TCPHeader.FLAG_FIN | TCPHeader.FLAG_ACK, header.getFlags());
+        Assertions.assertEquals(1111, header.getSourcePort());
+        Assertions.assertEquals(2222, header.getDestinationPort());
+        Assertions.assertEquals(300, header.getSequenceNumber());
+        Assertions.assertEquals(101, header.getAcknowledgementNumber());
+        Assertions.assertEquals(TCPHeader.FLAG_FIN | TCPHeader.FLAG_ACK, header.getFlags());
 
         // assert the buffer has been modified
         int sourcePort = Short.toUnsignedInt(buffer.getShort(0));
@@ -121,22 +121,22 @@ public class TCPHeaderTest {
         int acknowledgementNumber = buffer.getInt(8);
         short dataOffsetAndFlags = buffer.getShort(12);
 
-        Assert.assertEquals(1111, sourcePort);
-        Assert.assertEquals(2222, destinationPort);
-        Assert.assertEquals(300, sequenceNumber);
-        Assert.assertEquals(101, acknowledgementNumber);
-        Assert.assertEquals(0x5011, dataOffsetAndFlags);
+        Assertions.assertEquals(1111, sourcePort);
+        Assertions.assertEquals(2222, destinationPort);
+        Assertions.assertEquals(300, sequenceNumber);
+        Assertions.assertEquals(101, acknowledgementNumber);
+        Assertions.assertEquals(0x5011, dataOffsetAndFlags);
 
         header.swapSourceAndDestination();
 
-        Assert.assertEquals(2222, header.getSourcePort());
-        Assert.assertEquals(1111, header.getDestinationPort());
+        Assertions.assertEquals(2222, header.getSourcePort());
+        Assertions.assertEquals(1111, header.getDestinationPort());
 
         sourcePort = Short.toUnsignedInt(buffer.getShort(0));
         destinationPort = Short.toUnsignedInt(buffer.getShort(2));
 
-        Assert.assertEquals(2222, sourcePort);
-        Assert.assertEquals(1111, destinationPort);
+        Assertions.assertEquals(2222, sourcePort);
+        Assertions.assertEquals(1111, destinationPort);
     }
 
     @Test
@@ -165,7 +165,7 @@ public class TCPHeaderTest {
         }
         short checksum = (short) ~sum;
 
-        Assert.assertEquals(checksum, tcpHeader.getChecksum());
+        Assertions.assertEquals(checksum, tcpHeader.getChecksum());
     }
 
     @Test
@@ -195,7 +195,7 @@ public class TCPHeaderTest {
         }
         short checksum = (short) ~sum;
 
-        Assert.assertEquals(checksum, tcpHeader.getChecksum());
+        Assertions.assertEquals(checksum, tcpHeader.getChecksum());
     }
 
     @Test
@@ -208,9 +208,9 @@ public class TCPHeaderTest {
         TCPHeader copy = header.copyTo(target);
         copy.setSourcePort(9999);
 
-        Assert.assertEquals(32, target.position());
-        Assert.assertEquals("Header must modify target", 9999, target.getShort(12));
-        Assert.assertEquals("Header must not modify buffer", 0x1234, buffer.getShort(0));
+        Assertions.assertEquals(32, target.position());
+        Assertions.assertEquals("Header must modify target", 9999, target.getShort(12));
+        Assertions.assertEquals("Header must not modify buffer", 0x1234, buffer.getShort(0));
     }
 
     private static ByteBuffer createLongPacket() {
@@ -243,7 +243,7 @@ public class TCPHeaderTest {
         return buffer;
     }
 
-    @Ignore // manual benchmark
+    @Disabled // manual benchmark
     @Test
     public void benchComputeChecksum() {
         ByteBuffer buffer = createLongPacket();
