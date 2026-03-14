@@ -16,8 +16,8 @@
 
 package com.genymobile.gnirehtet.relay;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.nio.ByteBuffer;
 
@@ -53,34 +53,34 @@ public class IPv4PacketTest {
         IPv4Packet packet = new IPv4Packet(buffer);
 
         IPv4Header ipv4Header = packet.getIpv4Header();
-        Assert.assertTrue(ipv4Header.isSupported());
-        Assert.assertEquals(20, ipv4Header.getHeaderLength());
-        Assert.assertEquals(32, ipv4Header.getTotalLength());
-        Assert.assertEquals(IPv4Header.Protocol.UDP, ipv4Header.getProtocol());
-        Assert.assertEquals(0x12345678, ipv4Header.getSource());
-        Assert.assertEquals(0x42424242, ipv4Header.getDestination());
+        Assertions.assertTrue(ipv4Header.isSupported());
+        Assertions.assertEquals(20, ipv4Header.getHeaderLength());
+        Assertions.assertEquals(32, ipv4Header.getTotalLength());
+        Assertions.assertEquals(IPv4Header.Protocol.UDP, ipv4Header.getProtocol());
+        Assertions.assertEquals(0x12345678, ipv4Header.getSource());
+        Assertions.assertEquals(0x42424242, ipv4Header.getDestination());
 
         UDPHeader udpHeader = (UDPHeader) packet.getTransportHeader();
-        Assert.assertEquals(1234, udpHeader.getSourcePort());
-        Assert.assertEquals(5678, udpHeader.getDestinationPort());
-        Assert.assertEquals(8, udpHeader.getHeaderLength());
+        Assertions.assertEquals(1234, udpHeader.getSourcePort());
+        Assertions.assertEquals(5678, udpHeader.getDestinationPort());
+        Assertions.assertEquals(8, udpHeader.getHeaderLength());
 
         packet.swapSourceAndDestination();
 
-        Assert.assertEquals(0x42424242, ipv4Header.getSource());
-        Assert.assertEquals(0x12345678, ipv4Header.getDestination());
-        Assert.assertEquals(5678, udpHeader.getSourcePort());
-        Assert.assertEquals(1234, udpHeader.getDestinationPort());
+        Assertions.assertEquals(0x42424242, ipv4Header.getSource());
+        Assertions.assertEquals(0x12345678, ipv4Header.getDestination());
+        Assertions.assertEquals(5678, udpHeader.getSourcePort());
+        Assertions.assertEquals(1234, udpHeader.getDestinationPort());
 
         int source = buffer.getInt(12);
         int destination = buffer.getInt(16);
         int sourcePort = Short.toUnsignedInt(buffer.getShort(20));
         int destinationPort = Short.toUnsignedInt(buffer.getShort(22));
 
-        Assert.assertEquals(0x42424242, source);
-        Assert.assertEquals(0x12345678, destination);
-        Assert.assertEquals(5678, sourcePort);
-        Assert.assertEquals(1234, destinationPort);
+        Assertions.assertEquals(0x42424242, source);
+        Assertions.assertEquals(0x12345678, destination);
+        Assertions.assertEquals(5678, sourcePort);
+        Assertions.assertEquals(1234, destinationPort);
     }
 
     @Test
@@ -89,6 +89,6 @@ public class IPv4PacketTest {
         IPv4Packet packet = new IPv4Packet(buffer);
 
         ByteBuffer payload = packet.getPayload();
-        Assert.assertEquals(0x11223344, payload.getInt(0));
+        Assertions.assertEquals(0x11223344, payload.getInt(0));
     }
 }

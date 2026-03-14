@@ -16,8 +16,8 @@
 
 package com.genymobile.gnirehtet.relay;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -48,7 +48,7 @@ public class DatagramBufferTest {
         datagramBuffer.writeTo(channel);
 
         byte[] result = bos.toByteArray();
-        Assert.assertArrayEquals(datagram.array(), result);
+        Assertions.assertArrayEquals(datagram.array(), result);
     }
 
     @Test
@@ -69,25 +69,25 @@ public class DatagramBufferTest {
 
         datagramBuffer.writeTo(channel);
         byte[] result = bos.toByteArray();
-        Assert.assertArrayEquals(datagram5.array(), result);
+        Assertions.assertArrayEquals(datagram5.array(), result);
 
         bos.reset();
 
         datagramBuffer.writeTo(channel);
         result = bos.toByteArray();
-        Assert.assertArrayEquals(datagram0.array(), result);
+        Assertions.assertArrayEquals(datagram0.array(), result);
 
         bos.reset();
 
         datagramBuffer.writeTo(channel);
         result = bos.toByteArray();
-        Assert.assertArrayEquals(datagram3.array(), result);
+        Assertions.assertArrayEquals(datagram3.array(), result);
 
         bos.reset();
 
         datagramBuffer.writeTo(channel);
         result = bos.toByteArray();
-        Assert.assertArrayEquals(datagram4.array(), result);
+        Assertions.assertArrayEquals(datagram4.array(), result);
     }
 
     @Test
@@ -109,12 +109,12 @@ public class DatagramBufferTest {
 
         datagramBuffer.writeTo(channel);
         byte[] result = bos.toByteArray();
-        Assert.assertArrayEquals(datagram5.array(), result);
+        Assertions.assertArrayEquals(datagram5.array(), result);
 
         bos.reset();
 
         datagramBuffer.writeTo(channel);
         result = bos.toByteArray();
-        Assert.assertArrayEquals(datagram3.array(), result);
+        Assertions.assertArrayEquals(datagram3.array(), result);
     }
 }

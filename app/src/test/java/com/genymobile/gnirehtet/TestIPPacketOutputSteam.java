@@ -16,8 +16,8 @@
 
 package com.genymobile.gnirehtet;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -61,16 +61,16 @@ public class TestIPPacketOutputSteam {
         byte[] rawPacket = createMockPacket().array();
 
         pos.write(rawPacket, 0, 14);
-        Assert.assertEquals("Partial packet should not be written", 0, bos.size());
+        Assertions.assertEquals(0, bos.size(), "Partial packet should not be written");
 
         pos.write(rawPacket, 14, 14);
-        Assert.assertEquals("Partial packet should not be written", 0, bos.size());
+        Assertions.assertEquals(0, bos.size(), "Partial packet should not be written");
 
         pos.write(rawPacket, 28, 4);
-        Assert.assertEquals("Complete packet should be written", 32, bos.size());
+        Assertions.assertEquals(32, bos.size(), "Complete packet should be written");
 
         byte[] result = bos.toByteArray();
-        Assert.assertTrue("Resulting array must be identical", Arrays.equals(rawPacket, result));
+        Assertions.assertTrue(Arrays.equals(rawPacket, result), "Resulting array must be identical");
     }
 
     @Test
@@ -94,11 +94,11 @@ public class TestIPPacketOutputSteam {
         byte[] rawPackets = buffer.array();
 
         pos.write(rawPackets, 0, 70); // 2 packets + 6 bytes
-        Assert.assertEquals("Exactly 2 packets should have been written", 64, cos.size());
-        Assert.assertEquals("Packets should be written individually to the target", 2, cos.packetCount);
+        Assertions.assertEquals(64, cos.size(), "Exactly 2 packets should have been written");
+        Assertions.assertEquals(2, cos.packetCount, "Packets should be written individually to the target");
 
         pos.write(rawPackets, 70, 26);
-        Assert.assertEquals("Exactly 3 packets should have been written", 96, cos.size());
-        Assert.assertEquals("Packets should be written individually to the target", 3, cos.packetCount);
+        Assertions.assertEquals(96, cos.size(), "Exactly 3 packets should have been written");
+        Assertions.assertEquals(3, cos.packetCount, "Packets should be written individually to the target");
     }
 }

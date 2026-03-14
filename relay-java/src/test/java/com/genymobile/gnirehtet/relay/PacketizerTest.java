@@ -16,8 +16,8 @@
 
 package com.genymobile.gnirehtet.relay;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -62,11 +62,11 @@ public class PacketizerTest {
 
         Packetizer packetizer = new Packetizer(ipv4Header, transportHeader);
         IPv4Packet packet = packetizer.packetize(channel);
-        Assert.assertEquals(36, packet.getIpv4Header().getTotalLength());
+        Assertions.assertEquals(36, packet.getIpv4Header().getTotalLength());
 
         ByteBuffer packetPayload = packet.getPayload();
-        Assert.assertEquals(8, packetPayload.remaining());
-        Assert.assertEquals(0x1122334455667788L, packetPayload.getLong());
+        Assertions.assertEquals(8, packetPayload.remaining());
+        Assertions.assertEquals(0x1122334455667788L, packetPayload.getLong());
     }
 
     @Test
@@ -83,24 +83,24 @@ public class PacketizerTest {
         IPv4Packet packet = packetizer.packetize(channel, 2);
         ByteBuffer packetPayload = packet.getPayload();
 
-        Assert.assertEquals(30, packet.getIpv4Header().getTotalLength());
-        Assert.assertEquals(2, packetPayload.remaining());
-        Assert.assertEquals(0x1122, Short.toUnsignedInt(packetPayload.getShort()));
+        Assertions.assertEquals(30, packet.getIpv4Header().getTotalLength());
+        Assertions.assertEquals(2, packetPayload.remaining());
+        Assertions.assertEquals(0x1122, Short.toUnsignedInt(packetPayload.getShort()));
 
         packet = packetizer.packetize(channel, 3);
         packetPayload = packet.getPayload();
-        Assert.assertEquals(31, packet.getIpv4Header().getTotalLength());
-        Assert.assertEquals(3, packetPayload.remaining());
-        Assert.assertEquals(0x33, packetPayload.get());
-        Assert.assertEquals(0x44, packetPayload.get());
-        Assert.assertEquals(0x55, packetPayload.get());
+        Assertions.assertEquals(31, packet.getIpv4Header().getTotalLength());
+        Assertions.assertEquals(3, packetPayload.remaining());
+        Assertions.assertEquals(0x33, packetPayload.get());
+        Assertions.assertEquals(0x44, packetPayload.get());
+        Assertions.assertEquals(0x55, packetPayload.get());
 
         packet = packetizer.packetize(channel, 1024);
         packetPayload = packet.getPayload();
-        Assert.assertEquals(31, packet.getIpv4Header().getTotalLength());
-        Assert.assertEquals(3, packetPayload.remaining());
-        Assert.assertEquals(0x66, packetPayload.get());
-        Assert.assertEquals(0x77, packetPayload.get());
-        Assert.assertEquals((byte) 0x88, packetPayload.get());
+        Assertions.assertEquals(31, packet.getIpv4Header().getTotalLength());
+        Assertions.assertEquals(3, packetPayload.remaining());
+        Assertions.assertEquals(0x66, packetPayload.get());
+        Assertions.assertEquals(0x77, packetPayload.get());
+        Assertions.assertEquals((byte) 0x88, packetPayload.get());
     }
 }

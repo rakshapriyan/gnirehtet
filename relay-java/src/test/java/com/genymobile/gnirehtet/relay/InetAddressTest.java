@@ -16,8 +16,8 @@
 
 package com.genymobile.gnirehtet.relay;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.net.InetAddress;
 
@@ -28,13 +28,13 @@ public class InetAddressTest {
     public void testIntToInetAddress() {
         int ip = 0x01020304;
         InetAddress addr = Net.toInetAddress(ip);
-        Assert.assertEquals("1.2.3.4", addr.getHostAddress());
+        Assertions.assertEquals("1.2.3.4", addr.getHostAddress());
     }
 
     @Test
     public void testUnsignedIntToInetAddress() {
         int ip = 0xff020304;
         InetAddress addr = Net.toInetAddress(ip);
-        Assert.assertEquals("255.2.3.4", addr.getHostAddress());
+        Assertions.assertEquals("255.2.3.4", addr.getHostAddress());
     }
 }

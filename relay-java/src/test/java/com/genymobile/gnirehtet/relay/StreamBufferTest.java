@@ -16,8 +16,8 @@
 
 package com.genymobile.gnirehtet.relay;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -46,7 +46,7 @@ public class StreamBufferTest {
         streamBuffer.writeTo(channel);
 
         byte[] result = bos.toByteArray();
-        Assert.assertArrayEquals(buffer.array(), result);
+        Assertions.assertArrayEquals(buffer.array(), result);
     }
 
     static class DevNullChannel implements ByteChannel {
@@ -107,12 +107,12 @@ public class StreamBufferTest {
         // This is not a requirement, but this verifies that the implementation works as expected
         byte[] result = bos.toByteArray();
         byte[] expected = {0, 1, 2, 3};
-        Assert.assertArrayEquals(expected, result);
+        Assertions.assertArrayEquals(expected, result);
 
         // write the remaining
         streamBuffer.writeTo(channel);
         result = bos.toByteArray();
-        Assert.assertArrayEquals(buffer.array(), result);
+        Assertions.assertArrayEquals(buffer.array(), result);
     }
 
     @Test
@@ -127,12 +127,12 @@ public class StreamBufferTest {
         buffer.rewind();
         streamBuffer.readFrom(buffer);
 
-        Assert.assertEquals(3, buffer.remaining());
+        Assertions.assertEquals(3, buffer.remaining());
 
         streamBuffer.writeTo(channel);
 
         byte[] result = bos.toByteArray();
         byte[] expected = {0, 1, 2, 3, 4, 5, 0, 1, 2};
-        Assert.assertArrayEquals(expected, result);
+        Assertions.assertArrayEquals(expected, result);
     }
 }

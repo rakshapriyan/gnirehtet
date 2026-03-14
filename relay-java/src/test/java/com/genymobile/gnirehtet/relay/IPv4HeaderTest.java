@@ -16,9 +16,9 @@
 
 package com.genymobile.gnirehtet.relay;
 
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 
 import java.nio.ByteBuffer;
 
@@ -30,7 +30,7 @@ public class IPv4HeaderTest {
         ByteBuffer buffer = ByteBuffer.allocate(20);
         buffer.flip();
         int firstPacketVersion = IPv4Header.readVersion(buffer);
-        Assert.assertEquals("IPv4 packet version must be unknown", -1, firstPacketVersion);
+        Assertions.assertEquals("IPv4 packet version must be unknown", -1, firstPacketVersion);
     }
 
     @Test
@@ -40,7 +40,7 @@ public class IPv4HeaderTest {
         buffer.put(versionAndIHL);
         buffer.flip();
         int firstPacketVersion = IPv4Header.readVersion(buffer);
-        Assert.assertEquals("Wrong IP version field value", 4, firstPacketVersion);
+        Assertions.assertEquals("Wrong IP version field value", 4, firstPacketVersion);
     }
 
     @Test
@@ -48,7 +48,7 @@ public class IPv4HeaderTest {
         ByteBuffer buffer = ByteBuffer.allocate(20);
         buffer.flip();
         int firstPacketLength = IPv4Header.readLength(buffer);
-        Assert.assertEquals("IPv4 packet length must be unknown", -1, firstPacketLength);
+        Assertions.assertEquals("IPv4 packet length must be unknown", -1, firstPacketLength);
     }
 
     @Test
@@ -59,7 +59,7 @@ public class IPv4HeaderTest {
         buffer.position(20); // consider we wrote the whole header
         buffer.flip();
         int firstPacketLength = IPv4Header.readLength(buffer);
-        Assert.assertEquals("Wrong IP length field value", 0x123, firstPacketLength);
+        Assertions.assertEquals("Wrong IP length field value", 0x123, firstPacketLength);
     }
 
     private static ByteBuffer createMockHeaders() {
@@ -84,11 +84,11 @@ public class IPv4HeaderTest {
     @Test
     public void testParsePacketHeaders() {
         IPv4Header header = new IPv4Header(createMockHeaders());
-        Assert.assertNotNull("Valid IPv4 header not parsed", header);
-        Assert.assertTrue(header.isSupported());
-        Assert.assertEquals(IPv4Header.Protocol.UDP, header.getProtocol());
-        Assert.assertEquals(20, header.getHeaderLength());
-        Assert.assertEquals(28, header.getTotalLength());
+        Assertions.assertNotNull(header, "Valid IPv4 header not parsed");
+        Assertions.assertTrue(header.isSupported());
+        Assertions.assertEquals(IPv4Header.Protocol.UDP, header.getProtocol());
+        Assertions.assertEquals(20, header.getHeaderLength());
+        Assertions.assertEquals(28, header.getTotalLength());
     }
 
     @Test
@@ -100,29 +100,29 @@ public class IPv4HeaderTest {
         header.setDestination(0x24242424);
         header.setTotalLength(42);
 
-        Assert.assertEquals(0x87654321, header.getSource());
-        Assert.assertEquals(0x24242424, header.getDestination());
-        Assert.assertEquals(42, header.getTotalLength());
+        Assertions.assertEquals(0x87654321, header.getSource());
+        Assertions.assertEquals(0x24242424, header.getDestination());
+        Assertions.assertEquals(42, header.getTotalLength());
 
         // assert the buffer has been modified
         int source = buffer.getInt(12);
         int destination = buffer.getInt(16);
         int totalLength = Short.toUnsignedInt(buffer.getShort(2));
 
-        Assert.assertEquals(0x87654321, source);
-        Assert.assertEquals(0x24242424, destination);
-        Assert.assertEquals(42, totalLength);
+        Assertions.assertEquals(0x87654321, source);
+        Assertions.assertEquals(0x24242424, destination);
+        Assertions.assertEquals(42, totalLength);
 
         header.swapSourceAndDestination();
 
-        Assert.assertEquals(0x24242424, header.getSource());
-        Assert.assertEquals(0x87654321, header.getDestination());
+        Assertions.assertEquals(0x24242424, header.getSource());
+        Assertions.assertEquals(0x87654321, header.getDestination());
 
         source = buffer.getInt(12);
         destination = buffer.getInt(16);
 
-        Assert.assertEquals(0x24242424, source);
-        Assert.assertEquals(0x87654321, destination);
+        Assertions.assertEquals(0x24242424, source);
+        Assertions.assertEquals(0x87654321, destination);
     }
 
     @Test
@@ -141,10 +141,10 @@ public class IPv4HeaderTest {
         }
         short checksum = (short) ~sum;
 
-        Assert.assertEquals(checksum, header.getChecksum());
+        Assertions.assertEquals(checksum, header.getChecksum());
     }
 
-    @Ignore // manual benchmark
+    @Disabled // manual benchmark
     @Test
     public void benchComputeChecksum() {
         ByteBuffer buffer = createMockHeaders();
